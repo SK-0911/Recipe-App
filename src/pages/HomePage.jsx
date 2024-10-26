@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react'
 import RecipeCard from '../components/RecipeCard';
 import { getRandomColor } from "../lib/utils";
 
-const APP_ID = "7b15303f";
-const APP_KEY = "393436a82a9b86438048f0f73b380d6d";
+const APP_ID = import.meta.env.VITE_APP_ID;
+const APP_KEY = import.meta.env.VITE_APP_KEY;
 const HomePage = () => {
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState([]);
@@ -28,14 +28,19 @@ const HomePage = () => {
     }
     useEffect(() => {
         fetchRecipes("Paneer");
-    }, [])
+    }, []);
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        fetchRecipes(e.target[0].value);
+    }
   return <div className='bg-[#222] p-10 flex-1'>
         <div className="max-w-screen-lg mx-auto">
-            <form action="">
+            <form onSubmit={handleSearch}>
                 <label className="input shadow-md flex items-center gap-2 bg-white">
                     <Search size={24} color='#222'/>
                     <input type="text" 
-                    className='text-sm md:text-md grow placeholder-gray-600 focus:placeholder-gray-300'
+                    className='text-sm md:text-md grow placeholder-gray-600 focus:placeholder-gray-500 text-black'
                     placeholder='What do you want to cook today?'
                     />
                 </label>
